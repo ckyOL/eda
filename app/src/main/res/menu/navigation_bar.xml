@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_post"
+            android:icon="@drawable/navigation_post"
+            android:title="@string/navigation_post" />
+        <item
+            android:id="@+id/navigation_mycollect"
+            android:icon="@drawable/navigation_mycollect"
+            android:title="@string/navigation_mycollect" />
+
+        <item
+            android:id="@+id/navigation_mastercollect"
+            android:icon="@drawable/navigation_mastercollect"
+            android:title="@string/navigation_mastercollect" />
+    </group>
+</menu>

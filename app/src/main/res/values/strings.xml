@@ -1,14 +1,18 @@
 <resources>
-    <string name="app_name">eda</string>
+    <string name="app_name">易搭</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="navigation_post">发布搭配</string>
+    <string name="navigation_mycollect">我的搭</string>
+    <string name="navigation_mastercollect">高手搭</string>
 </resources>
