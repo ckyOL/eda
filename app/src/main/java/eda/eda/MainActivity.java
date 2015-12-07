@@ -1,6 +1,7 @@
 package eda.eda;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -24,31 +25,65 @@ import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CharSequence mTitle;
-    DrawerLayout mDrawerLayout;
+    DrawerLayout mDrawerLayout;//Drawer
+    Toolbar mToolbar;//AppBar
+    ActionBarDrawerToggle mDrawerToggle;//侧边栏监听器
+    NavigationView mNavigationView;//侧边栏
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("易搭");
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);//初始化
+        setSupportActionBar(mToolbar);//替换 ActionBar
+        mToolbar.setTitle("易搭");//标题
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //按钮监听器
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        //搜索
+                        break;
+                    case R.id.action_screen:
+                        //筛选
+                        break;
+                    case R.id.action_messages:
+                        //信息
+                        break;
+                }
+                return true;
+            }
+        });
+
+        //drawer、监听器初始化
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle mDrawerToggle;
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open,
+        mDrawerToggle =
+                new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open,
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        //侧边栏初始化
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         setupDrawerContent(mNavigationView);
-        mTitle = getTitle();
 
         }
 
-    //设置NavigationView点击事件
+    /**
+     *开启主页按钮
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+    /**设置NavigationView点击
+     *
+     */
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -73,26 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    /*public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    } */
 
     /**
      * A placeholder fragment containing a simple view.
@@ -126,12 +141,6 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
 
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
 
+    }
 }

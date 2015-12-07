@@ -15,5 +15,15 @@
             android:id="@+id/navigation_mastercollect"
             android:icon="@drawable/navigation_mastercollect"
             android:title="@string/navigation_mastercollect" />
+
+        <item
+            android:id="@+id/navigation_brandcollect"
+            android:icon="@drawable/navigation_brandcollect"
+            android:title="@string/navigation_brandcollect" />
+
+        <item
+            android:id="@+id/navigation_friendcollect"
+            android:icon="@drawable/navigation_friendscollect"
+            android:title="@string/navigation_friendcollect" />
     </group>
 </menu>
