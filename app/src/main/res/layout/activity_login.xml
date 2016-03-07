@@ -45,38 +45,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_wechat"
-            android:layout_gravity="bottom"
-            android:src="@drawable/login_wechat"
-            android:layout_marginLeft="68dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_qq"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/login_qq"
-            android:layout_marginLeft="40dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_weibo"
-            android:src="@drawable/login_weibo"
-            android:layout_marginRight="68dp"
-            android:layout_marginLeft="40dp" />
-
-
-    </LinearLayout>
 
 
 </LinearLayout>

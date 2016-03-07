@@ -14,8 +14,16 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".FriendCollectActivity"
+            android:label="@string/navigation_friendcollect">
+            <intent-filter>
+                <action android:name="eda.eda.FriendCollectActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
