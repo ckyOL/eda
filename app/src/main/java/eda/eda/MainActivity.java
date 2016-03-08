@@ -1,5 +1,7 @@
 package eda.eda;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,10 +14,14 @@ import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
-    DrawerLayout mainActDrawerLayout;//Drawer
-    Toolbar mainActToolbar;//AppBar
-    ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
-    NavigationView mainActNavigationView;//侧边栏
+    private DrawerLayout mainActDrawerLayout;//Drawer
+    private Toolbar mainActToolbar;//AppBar
+    private ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
+    private NavigationView mainActNavigationView;//侧边栏
+
+    private SharedPreferences data; //存储数据
+    private SharedPreferences.Editor editor; //编辑器
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
                                 Intent brandCollAct = new Intent(MainActivity.this, BrandCollectActivity.class);
                                 startActivity(brandCollAct);
                                 break;
+                            case R.id.navigation_logout:
+                                data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+                                editor = data.edit();
+                                editor.putBoolean("login",false);
+                                editor.commit();
+                                Intent loginAct = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(loginAct);
+                                finish();
 
                         }
                         menuItem.setChecked(true);

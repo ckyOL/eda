@@ -1,7 +1,9 @@
 package eda.eda;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -21,15 +23,18 @@ public class BrandCollectActivity extends AppCompatActivity{
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Card> cardList;
 
-    DrawerLayout friendActDrawerLayout;//Drawer
-    Toolbar friendActToolbar;//AppBar
-    ActionBarDrawerToggle friendActDrawerToggle;//侧边栏监听器
-    NavigationView friendActNavigationView;//侧边栏
+    private DrawerLayout friendActDrawerLayout;//Drawer
+    private Toolbar friendActToolbar;//AppBar
+    private ActionBarDrawerToggle friendActDrawerToggle;//侧边栏监听器
+    private NavigationView friendActNavigationView;//侧边栏
+
+    private SharedPreferences data; //存储数据
+    private SharedPreferences.Editor editor; //编辑器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend);
+        setContentView(R.layout.activity_brand);
 
         friendActToolbar = (Toolbar) findViewById(R.id.toolbar);//初始化
         setSupportActionBar(friendActToolbar);//替换 ActionBar
@@ -113,6 +118,15 @@ public class BrandCollectActivity extends AppCompatActivity{
                                 Intent brandCollAct = new Intent(BrandCollectActivity.this, BrandCollectActivity.class);
                                 startActivity(brandCollAct);
                                 break;
+                            case R.id.navigation_logout:
+                                data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+                                editor = data.edit();
+                                editor.putBoolean("login",false);
+                                editor.commit();
+                                Intent loginAct = new Intent(BrandCollectActivity.this, LoginActivity.class);
+                                startActivity(loginAct);
+                                finish();
+
 
                         }
                         menuItem.setChecked(true);

@@ -25,33 +25,41 @@ public class LoginActivity extends AppCompatActivity{
 
         data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
 
-        loginUserName=(EditText) findViewById(R.id.login_user_name);
-        loginPassWord=(EditText) findViewById(R.id.login_password);
+        if (data.getBoolean("login",true)){
+            Intent main = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(main);
+            finish();
+        }
+        else {
 
-        loginButton=(Button) findViewById(R.id.login_button);
+            loginUserName = (EditText) findViewById(R.id.login_user_name);
+            loginPassWord = (EditText) findViewById(R.id.login_password);
 
-        loginButton.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String userName=loginUserName.getText().toString().trim();
-                String passWord=loginPassWord.getText().toString().trim();
-                if(userName.equals("test") && passWord.equals("test")){
-                    editor = data.edit();
-                    editor.putString("userName",userName);
-                    editor.putString("passWord", passWord);
-                    editor.commit();
+            loginButton = (Button) findViewById(R.id.login_button);
 
-                    Intent main = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(main);
-                    finish();
+            loginButton.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String userName = loginUserName.getText().toString().trim();
+                    String passWord = loginPassWord.getText().toString().trim();
+                    if (userName.equals("test") && passWord.equals("test")) {
+                        editor = data.edit();
+                        editor.putBoolean("login", true);
+                        editor.putString("userName", userName);
+                        editor.putString("passWord", passWord);
+                        editor.commit();
+
+                        Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(main);
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "用户名密码不正确，请重新输入！", Toast.LENGTH_LONG).show();
+                    }
+
                 }
-                else {
-                    Toast.makeText(LoginActivity.this, "用户名密码不正确，请重新输入！", Toast.LENGTH_LONG).show();
-                }
 
-            }
-
-        });
+            });
+        }
     }
 
 }

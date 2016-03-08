@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
     <group android:checkableBehavior="single">
         <item
@@ -25,5 +26,14 @@
             android:id="@+id/navigation_friendcollect"
             android:icon="@drawable/navigation_friendscollect"
             android:title="@string/navigation_friendcollect" />
+        <item >
+            <menu>
+                <item
+                    android:id="@+id/navigation_logout"
+
+                    android:title="@string/navigation_logout" />
+
+            </menu>
+        </item>
     </group>
 </menu>
