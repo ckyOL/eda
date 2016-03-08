@@ -81,14 +81,18 @@ public class MainActivity extends AppCompatActivity {
                                 //switchToExample();
                                 break;
                             case R.id.navigation_mycollect:
-                                //switchToBlog();
+
                                 break;
                             case R.id.navigation_mastercollect:
-                                //switchToAbout();
+                                Intent masterCollAct = new Intent(MainActivity.this, MasterCollectActivity.class);
+                                startActivity(masterCollAct);
                                 break;
                             case R.id.navigation_friendcollect:
-                                Intent newAct = new Intent(MainActivity.this, FriendCollectActivity.class);
-                                startActivity(newAct);
+
+                                break;
+                            case R.id.navigation_brandcollect:
+                                Intent brandCollAct = new Intent(MainActivity.this, BrandCollectActivity.class);
+                                startActivity(brandCollAct);
                                 break;
 
                         }

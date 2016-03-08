@@ -10,7 +10,7 @@
         android:anyDensity="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +19,18 @@
         </activity>
 
         <activity
-            android:name=".FriendCollectActivity"
+            android:name=".MainActivity"
             android:label="@string/navigation_friendcollect">
-            <intent-filter>
-                <action android:name="eda.eda.FriendCollectActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MasterCollectActivity"
+            android:label="@string/navigation_mastercollect">
+        </activity>
+
+        <activity
+            android:name=".BrandCollectActivity"
+            android:label="@string/navigation_brandcollect">
         </activity>
     </application>
 

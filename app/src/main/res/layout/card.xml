@@ -24,7 +24,7 @@
                 android:scaleType="centerCrop"
                 android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -45,22 +45,20 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/style_text_color_primary"
                      />
-                <Button
+                <ImageView
                     android:id="@+id/card_star"
-                    android:text="@string/action_star"
-                    android:background="#00000000"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/card_star_off"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
+                    android:layout_height="wrap_content"
+                    android:clickable="true" />
+                <ImageView
                     android:id="@+id/card_like"
-                    android:background="#00000000"
-                    android:text="@string/action_like"
                     android:src="@drawable/card_favorite_off"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="true" />
             </LinearLayout>
 
 
