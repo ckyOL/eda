@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,22 +16,34 @@ import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * 界面
+     */
     private DrawerLayout mainActDrawerLayout;//Drawer
     private Toolbar mainActToolbar;//AppBar
     private ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
     private NavigationView mainActNavigationView;//侧边栏
 
+    /**
+     * 数据储存
+     */
     private SharedPreferences data; //存储数据
     private SharedPreferences.Editor editor; //编辑器
+
+    /**
+     * 碎片
+     */
+    private FriendCollectFragment friendCollect;
+    private FragmentManager fragmentManager;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActToolbar = (Toolbar) findViewById(R.id.toolbar);//初始化
-        setSupportActionBar(mainActToolbar);//替换 ActionBar
-        mainActToolbar.setTitle("@string/app_name");//标题
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setMainActToolbar();
+        setMainActNavigationView();
+        setFragment();
 
         //按钮监听器
         mainActToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -50,19 +64,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //drawer、监听器初始化
-        mainActDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mainActDrawerToggle =
-                new ActionBarDrawerToggle(this, mainActDrawerLayout, mainActToolbar, R.string.drawer_open,
-                R.string.drawer_close);
-        mainActDrawerToggle.syncState();
-        mainActDrawerLayout.setDrawerListener(mainActDrawerToggle);
 
-        //侧边栏初始化
-        mainActNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        setupDrawerContent(mainActNavigationView);
 
-        }
+    }
 
     /**
      *开启主页按钮
@@ -82,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Fragment fragment = friendCollect;
+                        Class fragmentClass = FriendCollectFragment.class;
                         switch (menuItem.getItemId()) {
                             case R.id.navigation_post:
                                 //switchToExample();
@@ -90,31 +96,68 @@ public class MainActivity extends AppCompatActivity {
 
                                 break;
                             case R.id.navigation_mastercollect:
-                                Intent masterCollAct = new Intent(MainActivity.this, MasterCollectActivity.class);
-                                startActivity(masterCollAct);
+                                fragmentClass = MasterCollectFragment.class;
                                 break;
                             case R.id.navigation_friendcollect:
-
+                                fragmentClass = FriendCollectFragment.class;
                                 break;
                             case R.id.navigation_brandcollect:
-                                Intent brandCollAct = new Intent(MainActivity.this, BrandCollectActivity.class);
-                                startActivity(brandCollAct);
+                                fragmentClass = BrandCollectFragment.class;
                                 break;
                             case R.id.navigation_logout:
                                 data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
                                 editor = data.edit();
-                                editor.putBoolean("login",false);
+                                editor.putBoolean("login", false);
                                 editor.commit();
                                 Intent loginAct = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(loginAct);
                                 finish();
 
                         }
+
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
                         menuItem.setChecked(true);
+                        mainActToolbar.setTitle(menuItem.getTitle());
                         mainActDrawerLayout.closeDrawers();
                         return true;
                     }
                 });
+    }
+
+    private void setMainActToolbar(){
+        mainActToolbar = (Toolbar) findViewById(R.id.toolbar);//初始化
+        setSupportActionBar(mainActToolbar);//替换 ActionBar
+        mainActToolbar.setTitle("@string/app_name");//标题
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setMainActNavigationView(){
+        //drawer、监听器初始化
+        mainActDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mainActDrawerToggle =
+                new ActionBarDrawerToggle(this, mainActDrawerLayout, mainActToolbar, R.string.drawer_open,
+                        R.string.drawer_close);
+        mainActDrawerToggle.syncState();
+        mainActDrawerLayout.setDrawerListener(mainActDrawerToggle);
+
+        //侧边栏初始化
+        mainActNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        setupDrawerContent(mainActNavigationView);
+    }
+
+    private void setFragment(){
+        friendCollect = new FriendCollectFragment();
+        fragment = friendCollect.newInstance(this);
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
 }
