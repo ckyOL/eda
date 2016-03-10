@@ -23,15 +23,7 @@
             android:label="@string/navigation_friendcollect">
         </activity>
 
-        <activity
-            android:name=".MasterCollectActivity"
-            android:label="@string/navigation_mastercollect">
-        </activity>
-
-        <activity
-            android:name=".BrandCollectActivity"
-            android:label="@string/navigation_brandcollect">
-        </activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
