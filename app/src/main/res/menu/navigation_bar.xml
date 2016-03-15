@@ -4,10 +4,6 @@
     tools:context=".activity.MainActivity">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_post"
-            android:icon="@drawable/navigation_post"
-            android:title="@string/navigation_post" />
-        <item
             android:id="@+id/navigation_mycollect"
             android:icon="@drawable/navigation_mycollect"
             android:title="@string/navigation_mycollect" />
@@ -26,14 +22,10 @@
             android:id="@+id/navigation_friendcollect"
             android:icon="@drawable/navigation_friendscollect"
             android:title="@string/navigation_friendcollect" />
-        <item >
-            <menu>
-                <item
-                    android:id="@+id/navigation_logout"
 
-                    android:title="@string/navigation_logout" />
+        <item
+            android:id="@+id/navigation_logout"
+            android:title="@string/navigation_logout" />
 
-            </menu>
-        </item>
     </group>
 </menu>
