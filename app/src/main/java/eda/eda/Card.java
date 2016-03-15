@@ -7,11 +7,18 @@ public class Card {
     String imageName;
     String userName;
     String profileName;
+    String uuid;
+    String posterId;
+    String postId;
 
-    public Card(String userName, String imageName,String profileName) {
+    public Card(String userName, String imageName,String profileName,
+                String uuid,String posterId,String postId) {
         this.userName = userName;
         this.imageName = imageName;
         this.profileName = profileName;
+        this.uuid = uuid;
+        this.posterId = posterId;
+        this.postId = postId;
     }
 
     public int getImageResourceId( Context context , String name) {

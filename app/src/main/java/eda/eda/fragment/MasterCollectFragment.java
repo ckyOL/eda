@@ -1,5 +1,7 @@
 package eda.eda.fragment;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,12 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import eda.eda.Card;
 import eda.eda.CardAdapter;
+import eda.eda.GlobalValue;
+import eda.eda.JsonConnection;
 import eda.eda.R;
+import eda.eda.activity.MainActivity;
 
 public class MasterCollectFragment extends Fragment{
 
@@ -51,10 +62,50 @@ public class MasterCollectFragment extends Fragment{
 
     private void inits(){
         cardList= new ArrayList<Card>();
-        Card card1 = new Card("user1","card1_collect","card1_profile");
-        Card card2 = new Card("User2","card2_collect","card1_profile");
-        cardList.add(card1);
-        cardList.add(card2);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("code",0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        conTask(GlobalValue.defaultUri, json);
+
+    }
+
+    public void conTask(String url, final JSONObject json) {
+        JsonConnection jsonConn = new JsonConnection(url, json, "POST");
+        new AsyncTask<JsonConnection, Void, JSONObject>() {
+
+            @Override
+            protected JSONObject doInBackground(JsonConnection... params) {
+                JsonConnection jc = params[0];
+                if (jc.connectAndGetJson()) {
+                    return jc.getJson();
+                } else return null;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                super.onPostExecute(jsonObject);
+
+                if (jsonObject != null) {
+                    try {
+                        JSONArray array = jsonObject.getJSONArray("list");
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(
+                            getActivity(),
+                            "连接失败",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute(jsonConn);
     }
 
 }

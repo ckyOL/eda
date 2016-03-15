@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 
 import eda.eda.R;
 import eda.eda.fragment.BrandCollectFragment;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainActToolbar;//AppBar
     private ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
     private NavigationView mainActNavigationView;//侧边栏
+    private Button fab;
 
     /**
      * 数据储存
@@ -49,7 +52,14 @@ public class MainActivity extends AppCompatActivity {
         setMainActToolbar();
         setMainActNavigationView();
         setFragment();
+        fab = (Button) findViewById(R.id.fab);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         //按钮监听器
         mainActToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
