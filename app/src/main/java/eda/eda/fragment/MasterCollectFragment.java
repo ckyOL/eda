@@ -1,4 +1,4 @@
-package eda.eda;
+package eda.eda.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
+
+import eda.eda.Card;
+import eda.eda.CardAdapter;
+import eda.eda.R;
 
 public class MasterCollectFragment extends Fragment{
 

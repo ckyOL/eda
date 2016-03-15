@@ -1,4 +1,4 @@
-package eda.eda;
+package eda.eda.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +13,11 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.content.Intent;
+
+import eda.eda.R;
+import eda.eda.fragment.BrandCollectFragment;
+import eda.eda.fragment.FriendCollectFragment;
+import eda.eda.fragment.MasterCollectFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 碎片
      */
-    private FriendCollectFragment friendCollect;
+    private MasterCollectFragment masterCollect;
     private FragmentManager fragmentManager;
     private Fragment fragment;
 
@@ -86,12 +91,10 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        Fragment fragment = friendCollect;
-                        Class fragmentClass = FriendCollectFragment.class;
+                        Fragment fragment = masterCollect;
+                        Class fragmentClass = MasterCollectFragment.class;
                         switch (menuItem.getItemId()) {
-                            case R.id.navigation_post:
-                                //switchToExample();
-                                break;
+
                             case R.id.navigation_mycollect:
 
                                 break;
@@ -154,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment(){
-        friendCollect = new FriendCollectFragment();
-        fragment = friendCollect.newInstance(this);
+        masterCollect = new MasterCollectFragment();
+        fragment = masterCollect.newInstance(this);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }

@@ -25,4 +25,6 @@
     <string name="login_password">密码</string>
     <string name="login_login">登录</string>
     <string name="login_singup">注册</string>
+
+    <string name="post_next">下一步</string>
 </resources>

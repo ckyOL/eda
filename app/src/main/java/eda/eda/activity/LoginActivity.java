@@ -1,4 +1,4 @@
-package eda.eda;
+package eda.eda.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import eda.eda.Coder;
+import eda.eda.Dialog;
+import eda.eda.GlobalValue;
+import eda.eda.JsonConnection;
+import eda.eda.R;
 
 public class LoginActivity extends AppCompatActivity{
     private EditText loginUserName,loginPassWord;
@@ -133,7 +139,7 @@ public class LoginActivity extends AppCompatActivity{
                             case 1:
                                 editor= data.edit();
                                 editor.putBoolean("login", true);
-                                editor.putString("uuid", json.getString("uuid"));
+                                editor.putString("uuid", jsonObject.getString("uuid"));
                                 editor.commit();
                                 Intent main = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(main);

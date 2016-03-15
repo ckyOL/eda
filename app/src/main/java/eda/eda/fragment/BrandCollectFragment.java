@@ -1,4 +1,4 @@
-package eda.eda;
+package eda.eda.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendCollectFragment extends Fragment{
+import eda.eda.Card;
+import eda.eda.CardAdapter;
+import eda.eda.R;
+
+public class BrandCollectFragment extends Fragment{
 
     /**
      * 卡片
@@ -22,8 +26,8 @@ public class FriendCollectFragment extends Fragment{
     private List<Card> cardList;
 
     public static Fragment newInstance(Context context) {
-        FriendCollectFragment friendCollectFragment = new FriendCollectFragment();
-        return friendCollectFragment;
+        BrandCollectFragment brandCollectFragment = new BrandCollectFragment();
+        return brandCollectFragment;
     }
 
     @Override
