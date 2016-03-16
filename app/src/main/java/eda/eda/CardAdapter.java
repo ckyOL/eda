@@ -3,6 +3,8 @@ package eda.eda;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +14,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.HttpGet;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -85,7 +96,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             public void onClick(View view) {
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("posterId", mCard.posterId);
                     json.put("postid", mCard.postId);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -96,18 +106,46 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.mCollectPic.setImageDrawable(mContext.getDrawable(mCard.getImageResourceId(mContext, mCard.imageName)));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.mProfilePic.setImageDrawable(mContext.getDrawable(mCard.getImageResourceId(mContext, mCard.profileName)));
-        }
+        Bitmap profileBitmap = getHttpBitmap(mCard.profileName);
+        Bitmap collectBitmap = getHttpBitmap(mCard.imageName);
+        holder.mProfilePic.setImageBitmap(profileBitmap);
+        holder.mCollectPic.setImageBitmap(collectBitmap);
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return cardDataSet.size();
+    }
+
+    public static Bitmap getHttpBitmap(String url){
+        URL myFileURL;
+        Bitmap bitmap=null;
+        try{
+            myFileURL = new URL(url);
+            //获得连接
+            HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+            //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
+            conn.setConnectTimeout(6000);
+            //连接设置获得数据流
+            conn.setDoInput(true);
+            //不使用缓存
+            conn.setUseCaches(false);
+            //这句可有可无，没有影响
+            //conn.connect();
+            //得到数据流
+            InputStream is = conn.getInputStream();
+            //解析得到图片
+            bitmap = BitmapFactory.decodeStream(is);
+            //关闭数据流
+            is.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return bitmap;
+
     }
 
     public void conTask(String url, final JSONObject json) {
@@ -155,4 +193,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         }.execute(jsonConn);
     }
+
+
 }

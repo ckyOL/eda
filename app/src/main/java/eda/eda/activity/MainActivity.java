@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainActToolbar;//AppBar
     private ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
     private NavigationView mainActNavigationView;//侧边栏
-    private Button fab;
+
 
     /**
      * 数据储存
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
      * 碎片
      */
     private MasterCollectFragment masterCollect;
+    private Class fragmentClass;
     private FragmentManager fragmentManager;
     private Fragment fragment;
 
@@ -52,14 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setMainActToolbar();
         setMainActNavigationView();
         setFragment();
-        fab = (Button) findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         //按钮监听器
         mainActToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -78,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
 
     }
 
@@ -101,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        Fragment fragment = masterCollect;
-                        Class fragmentClass = MasterCollectFragment.class;
+                        fragment = null;
+                        fragmentClass = MasterCollectFragment.class;
                         switch (menuItem.getItemId()) {
 
                             case R.id.navigation_mycollect:
@@ -145,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+
+
     private void setMainActToolbar(){
         mainActToolbar = (Toolbar) findViewById(R.id.toolbar);//初始化
         setSupportActionBar(mainActToolbar);//替换 ActionBar
@@ -171,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
         fragment = masterCollect.newInstance(this);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        mainActToolbar.setTitle("@string/navigation_mastercollect");
+
     }
 
 }
