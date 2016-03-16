@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:background="@color/background_login">
@@ -13,16 +15,30 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="330dp"
+        android:id="@+id/userPic"
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/button_matgin"
-        android:layout_marginRight="@dimen/button_matgin"
+        android:background="@color/style_text_color_primary"
+        android:text="添加图片"
+        android:textColor="@color/background_white"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/pictureButoon" />
+
+    <Button
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/style_text_color_primary"
         android:text="@string/post_next"
-        android:textColor="@color/background_white"/>
+        android:textColor="@color/background_white"
+        android:id="@+id/nextButton"
+        android:layout_above="@+id/nextButoon"
+        android:layout_centerHorizontal="true" />
 
 
 </LinearLayout>
