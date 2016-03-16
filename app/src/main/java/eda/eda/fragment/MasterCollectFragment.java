@@ -1,5 +1,6 @@
 package eda.eda.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -42,6 +43,8 @@ public class MasterCollectFragment extends Fragment{
     private String userProfilePicture;
     private String pictureUrl;
 
+    ProgressDialog progressDialog;
+
     public static Fragment newInstance(Context context) {
         MasterCollectFragment masterCollectFragment = new MasterCollectFragment();
         return masterCollectFragment;
@@ -57,15 +60,39 @@ public class MasterCollectFragment extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        inits();
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CardAdapter(getActivity(),cardList);
-        mRecyclerView.setAdapter(mAdapter);
+        progressDialog =
+                ProgressDialog.show(getActivity(),
+                "",
+                "加载中");
+        initConTask();
     }
 
+    private void initConTask(){
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                inits();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void v) {
+                super.onPostExecute(v);
+
+                mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
+                mRecyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(getActivity());
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new CardAdapter(getActivity(),cardList);
+                mRecyclerView.setAdapter(mAdapter);
+
+                progressDialog.cancel();
+
+            }
+        }.execute();
+    }
     private void inits(){
         cardList= new ArrayList<Card>();
 
@@ -94,42 +121,57 @@ public class MasterCollectFragment extends Fragment{
     }
 
     private void initCard(JSONObject json,String uuid){
+
         for(int i=0;i<array.length();i++) {
-            int postId=0;
+            int postId = 0;
             try {
                 postId = array.getInt(i);
-                json.put("articleuid",postId);
+                json.put("articleuid", postId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            JsonConnection jsonConn =
-                    new JsonConnection(GlobalValue.getActicleUrl,
-                    json, "POST");
-            JsonConnection jc = jsonConn;
-            if (jc.connectAndGetJson()) {
-                JSONObject jsonObject=jc.getJson();
-                try {
-                    userName = jsonObject.getString("username");
-                    userProfilePicture = GlobalValue.imageUrl+jsonObject.getString("userProfilepicture");
-                    pictureUrl = GlobalValue.imageUrl+jsonObject.getString("pictureurl");
+            conTask(GlobalValue.getActicleUrl, json);
 
-                    cardList.add(new Card(userName,pictureUrl,userProfilePicture,uuid,postId));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            else {
-                Toast.makeText(
-                        getActivity(),
-                        "生成卡片连接失败",
-                        Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
+    public void conTask(String url, final JSONObject json) {
+        JsonConnection jsonConn = new JsonConnection(url, json, "POST");
+        new AsyncTask<JsonConnection, Void, JSONObject>() {
 
+            @Override
+            protected JSONObject doInBackground(JsonConnection... params) {
+                JsonConnection jc = params[0];
+                if (jc.connectAndGetJson()) {
+                    return jc.getJson();
+                } else return null;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                super.onPostExecute(jsonObject);
+
+                if (jsonObject != null) {
+                    try {
+                        userName = jsonObject.getString("username");
+                        userProfilePicture = GlobalValue.getActicleUrl+jsonObject.getString("userProfilepicture");
+                        pictureUrl = GlobalValue.getActicleUrl+jsonObject.getString("pictureurl");
+                        cardList.add(new Card(userName, pictureUrl, userProfilePicture,
+                                getUuid(), json.getInt("articleuid")));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(
+                            getActivity(),
+                            "连接失败",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute(jsonConn);
+    }
 
     public void cardConTask(String url, final JSONObject json) {
         JsonConnection jsonConn = new JsonConnection(url, json, "POST");
