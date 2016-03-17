@@ -18,4 +18,24 @@ public class Dialog {
         });
         dialog.show();
     }
+
+    public Dialog(Context context,String massage,String buttonText,String secButtonText){
+        dialog = new AlertDialog.Builder(context);
+        dialog.setMessage(massage);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        dialog.setNeutralButton(secButtonText,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+        dialog.show();
+    }
 }

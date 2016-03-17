@@ -1,6 +1,7 @@
 package eda.eda.fragment;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,7 @@ import eda.eda.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostCollectFragment extends Fragment {
-
-
-
+public class PostFragment extends Fragment {
 
     Uri uri;
     ImageView image;
@@ -33,10 +31,15 @@ public class PostCollectFragment extends Fragment {
         return false;
     }
 
-    public PostCollectFragment() {
+    public PostFragment() {
         // Required empty public constructor
     }
 
+    public static Fragment newInstance(Context context,Bundle bundle) {
+        PostFragment postFragment = new PostFragment();
+        postFragment.setArguments(bundle);
+        return postFragment;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

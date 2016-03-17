@@ -36,6 +36,6 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
         android:elevation="@dimen/fab_elevation"
-        android:src="@drawable/fab_post" />
+        android:src="@drawable/fab_camera" />
 
 </android.support.design.widget.CoordinatorLayout>
