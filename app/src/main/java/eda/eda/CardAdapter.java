@@ -1,6 +1,7 @@
 package eda.eda;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -26,6 +27,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import eda.eda.fragment.MasterCollectFragment;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private List<Card> cardDataSet;
@@ -106,11 +113,49 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         });
 
-        Bitmap profileBitmap = getHttpBitmap(mCard.profileName);
-        Bitmap collectBitmap = getHttpBitmap(mCard.imageName);
+        Bitmap profileBitmap = AsyncGetHttpBitmap(mCard.profileName);
+        Bitmap collectBitmap = AsyncGetHttpBitmap(mCard.imageName);
         holder.mProfilePic.setImageBitmap(profileBitmap);
         holder.mCollectPic.setImageBitmap(collectBitmap);
+        if(cardDataSet.size()==position+1)
+        {
+            MasterCollectFragment.progressDialog.setCancelable(true);
+            MasterCollectFragment.progressDialog.dismiss();
+        }
+    }
 
+    public Bitmap AsyncGetHttpBitmap(String url)
+    {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        GetBitmapTask task=new GetBitmapTask(url);
+        Future<Bitmap> result=executor.submit(task);
+        executor.shutdown();
+        Bitmap bitmap=null;
+        try
+        {
+            bitmap=result.get();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    class GetBitmapTask implements Callable<Bitmap>
+    {
+
+        String url;
+
+        public GetBitmapTask(String url)
+        {
+            this.url=url;
+        }
+
+        @Override
+        public Bitmap call() throws Exception {
+
+            return getHttpBitmap(url);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -138,6 +183,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             InputStream is = conn.getInputStream();
             //解析得到图片
             bitmap = BitmapFactory.decodeStream(is);
+            System.err.print(url);
             //关闭数据流
             is.close();
         }catch(Exception e){

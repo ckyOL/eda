@@ -162,9 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setFragment(){
         masterCollect = new MasterCollectFragment();
-        fragment = masterCollect.newInstance(this);
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, masterCollect).commit();
         mainActToolbar.setTitle("@string/navigation_mastercollect");
 
     }

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import eda.eda.Card;
@@ -42,29 +44,37 @@ public class MasterCollectFragment extends Fragment{
     private String userName;
     private String userProfilePicture;
     private String pictureUrl;
+    private static int theadnum;
 
-    ProgressDialog progressDialog;
-
-    public static Fragment newInstance(Context context) {
-        MasterCollectFragment masterCollectFragment = new MasterCollectFragment();
-        return masterCollectFragment;
-    }
+    public static ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View brandLayout = inflater.inflate(R.layout.fragment_card, container, false);
+        mRecyclerView = (RecyclerView) brandLayout.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CardAdapter(getActivity(),cardList);
+        mRecyclerView.setAdapter(mAdapter);
         return brandLayout;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cardList= Collections.synchronizedList(new ArrayList<Card>());
         progressDialog =
-                ProgressDialog.show(getActivity(),
-                "",
-                "加载中");
-        initConTask();
+                new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("加载中...");
+        progressDialog.show();
+        //theadnum=1;
+        inits();
+        //while(theadnum!=0);
+
+        //initConTask();
     }
 
     private void initConTask(){
@@ -73,7 +83,9 @@ public class MasterCollectFragment extends Fragment{
 
             @Override
             protected Void doInBackground(Void... voids) {
+                theadnum=1;
                 inits();
+                while(theadnum!=0);
                 return null;
             }
 
@@ -81,20 +93,16 @@ public class MasterCollectFragment extends Fragment{
             protected void onPostExecute(Void v) {
                 super.onPostExecute(v);
 
-                mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
-                mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mRecyclerView.setLayoutManager(mLayoutManager);
+                System.out.println("okokokokokokkokoook");
+
                 mAdapter = new CardAdapter(getActivity(),cardList);
                 mRecyclerView.setAdapter(mAdapter);
-
-                progressDialog.cancel();
 
             }
         }.execute();
     }
     private void inits(){
-        cardList= new ArrayList<Card>();
+
 
         JSONObject json = new JSONObject();
         getActicle(json, 0);
@@ -121,7 +129,7 @@ public class MasterCollectFragment extends Fragment{
     }
 
     private void initCard(JSONObject json,String uuid){
-
+        //theadnum=array.length();
         for(int i=0;i<array.length();i++) {
             int postId = 0;
             try {
@@ -155,10 +163,13 @@ public class MasterCollectFragment extends Fragment{
                 if (jsonObject != null) {
                     try {
                         userName = jsonObject.getString("username");
-                        userProfilePicture = GlobalValue.getActicleUrl+jsonObject.getString("userProfilepicture");
-                        pictureUrl = GlobalValue.getActicleUrl+jsonObject.getString("pictureurl");
+                        userProfilePicture = GlobalValue.imageUrl+jsonObject.getString("userProfilepicture");
+                        pictureUrl = GlobalValue.imageUrl+jsonObject.getString("pictureurl");
                         cardList.add(new Card(userName, pictureUrl, userProfilePicture,
                                 getUuid(), json.getInt("articleuid")));
+                        //synchronized (this) {
+                        //    theadnum--;
+                        //}
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -181,7 +192,9 @@ public class MasterCollectFragment extends Fragment{
             protected JSONObject doInBackground(JsonConnection... params) {
                 JsonConnection jc = params[0];
                 if (jc.connectAndGetJson()) {
-                    return jc.getJson();
+                    JSONObject jsonObject=jc.getJson();
+
+                    return jsonObject;
                 } else return null;
             }
 
@@ -192,7 +205,7 @@ public class MasterCollectFragment extends Fragment{
                 if (jsonObject != null) {
                     try {
                         array = jsonObject.getJSONArray("list");
-                        initCard(json,getUuid());
+                        initCard(json, getUuid());
 
                     } catch (JSONException e) {
                         e.printStackTrace();
