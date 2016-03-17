@@ -1,0 +1,82 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="eda.eda.fragment.PostCollectFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
+        android:background="@color/background_login">
+
+        <ImageView
+            android:layout_width="275dp"
+            android:layout_height="117dp"
+            android:layout_marginLeft="34dp"
+            android:layout_marginRight="24dp"
+            android:src="@drawable/logo"/>
+
+        <ImageView
+            android:layout_width="219dp"
+            android:layout_height="215dp"
+            android:id="@+id/userPic2"
+            android:layout_marginLeft="63dp"
+            android:layout_marginRight="24dp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="品牌" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/kind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="种类" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="风格" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/style_text_color_primary"
+            android:text="发布"
+            android:textColor="@color/background_white"
+            android:id="@+id/button"
+            android:layout_above="@+id/postButton"
+            android:layout_centerHorizontal="true" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
