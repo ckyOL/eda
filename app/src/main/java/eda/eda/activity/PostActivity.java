@@ -1,32 +1,22 @@
 package eda.eda.activity;
-
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-
-import eda.eda.Coder;
-import eda.eda.Dialog;
-import eda.eda.GlobalValue;
-import eda.eda.JsonConnection;
+import java.io.Serializable;
 import eda.eda.R;
+import eda.eda.fragment.PostFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -37,6 +27,13 @@ public class PostActivity extends AppCompatActivity {
     private Button pictureButoon;
     private Button nextButoon;
     private ImageView image;
+
+    private PostFragment post;
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+
+    private AlertDialog.Builder dialog;
+    private Bundle bundle;
 
 
     @Override
@@ -50,12 +47,14 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //弹出候选框
+                setDialog("选取照片","自相册","拍照");
             }
         });
         nextButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //跳转到下一个fragment并传参
+                setFragment();
             }
         });
     }
@@ -99,7 +98,38 @@ public class PostActivity extends AppCompatActivity {
         {
             nextButoon.setClickable(true);
             image.setImageURI(uri);
+            bundle = new Bundle();
+            bundle.putSerializable("url", (Serializable) uri);
+
+
         }
     }
 
+    private void setFragment(){
+        post = new PostFragment();
+        fragment = post.newInstance(this,bundle);
+        post.getArguments();
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+    }
+
+    public void setDialog(String massage,String buttonText,String secButtonText){
+        dialog = new AlertDialog.Builder(this);
+        dialog.setMessage(massage);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getImageFromAlbum();
+            }
+        });
+
+        dialog.setNeutralButton(secButtonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                getImageFromCamera();
+            }
+        });
+        dialog.show();
+    }
 }
