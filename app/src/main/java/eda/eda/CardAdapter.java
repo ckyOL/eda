@@ -3,11 +3,13 @@ package eda.eda;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,16 +28,20 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import eda.eda.activity.DetailActivity;
+import eda.eda.activity.MainActivity;
+import eda.eda.activity.PostActivity;
 import eda.eda.fragment.MasterCollectFragment;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
-    private List<Card> cardDataSet;
+    private ArrayList<Card> cardDataSet;
     private Context mContext;
     private SharedPreferences data;
 
@@ -57,7 +63,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         }
     }
 
-    public CardAdapter(Context mContext , List<Card> cardDataSet)
+    public CardAdapter(Context mContext , ArrayList<Card> cardDataSet)
     {
         this.mContext = mContext;
         this.cardDataSet = cardDataSet;
@@ -103,6 +109,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             public void onClick(View view) {
                 JSONObject json = new JSONObject();
                 try {
+                    json.put("uid", mCard.uuid);
+                    System.out.println(mCard.uuid);
                     json.put("postid", mCard.postId);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -113,15 +121,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         });
 
-        Bitmap profileBitmap = AsyncGetHttpBitmap(mCard.profileName);
-        Bitmap collectBitmap = AsyncGetHttpBitmap(mCard.imageName);
+        final Bitmap profileBitmap = AsyncGetHttpBitmap(mCard.profileName);
+        final Bitmap collectBitmap = AsyncGetHttpBitmap(mCard.imageName);
         holder.mProfilePic.setImageBitmap(profileBitmap);
         holder.mCollectPic.setImageBitmap(collectBitmap);
-        if(cardDataSet.size()==position+1)
-        {
-            MasterCollectFragment.progressDialog.setCancelable(true);
-            MasterCollectFragment.progressDialog.dismiss();
-        }
+        holder.mCollectPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(mContext,DetailActivity.class);
+                String path= PostActivity.saveImage(collectBitmap);
+                main.putExtra("url",path);
+                mContext.startActivity(main);
+            }
+        });
     }
 
     public Bitmap AsyncGetHttpBitmap(String url)
@@ -183,7 +195,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             InputStream is = conn.getInputStream();
             //解析得到图片
             bitmap = BitmapFactory.decodeStream(is);
-            System.err.print(url);
             //关闭数据流
             is.close();
         }catch(Exception e){

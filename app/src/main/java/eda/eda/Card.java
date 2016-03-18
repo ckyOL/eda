@@ -3,10 +3,11 @@ package eda.eda;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Card {
+public class Card implements Serializable {
 
     String imageName;
     String userName;

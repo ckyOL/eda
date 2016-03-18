@@ -33,7 +33,7 @@ public class FriendCollectFragment extends Fragment{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Card> cardList;
+    private ArrayList<Card> cardList;
 
     private JSONArray array;
     private String userName;

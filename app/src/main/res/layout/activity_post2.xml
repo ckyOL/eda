@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="eda.eda.fragment.PostCollectFragment">
+    tools:context="eda.eda.fragment.PostFragment"
+    android:id="@+id/post2_layout">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
@@ -35,7 +36,6 @@
                 android:id="@+id/brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
                 android:hint="品牌" />
 
         </android.support.design.widget.TextInputLayout>
@@ -48,7 +48,6 @@
                 android:id="@+id/kind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:hint="种类" />
 
         </android.support.design.widget.TextInputLayout>
@@ -61,7 +60,6 @@
                 android:id="@+id/style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:hint="风格" />
 
         </android.support.design.widget.TextInputLayout>
@@ -72,8 +70,7 @@
             android:background="@color/style_text_color_primary"
             android:text="发布"
             android:textColor="@color/background_white"
-            android:id="@+id/button"
-            android:layout_above="@+id/postButton"
+            android:id="@+id/postButton"
             android:layout_centerHorizontal="true" />
 
 
