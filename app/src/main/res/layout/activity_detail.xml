@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="440dp"
         android:layout_marginTop="32dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:id="@+id/usershow" />
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:id="@+id/details_usershow" />
 
     <AbsoluteLayout
         android:layout_width="361dp"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="小k是我"
             android:textColor="#000"
-            android:id="@+id/details_name"
+            android:id="@+id/details_username"
             android:layout_x="100dp"
             android:layout_y="16dp"
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="3-16 12:00"
             android:textColor="@color/style_color_primary_dark"
-            android:id="@+id/details_time"
+            android:id="@+id/details_posttime"
             android:layout_x="104dp"
             android:layout_y="40dp"
             android:layout_below="@+id/details_name"
@@ -68,7 +68,7 @@
             android:text="235"
             android:textSize="21dp"
             android:textColor="#757575"
-            android:id="@+id/shareNO"
+            android:id="@+id/details_likenum"
             android:layout_x="281dp"
             android:layout_y="29dp" />
 
@@ -93,21 +93,11 @@
             android:text="品牌"
             android:layout_gravity="center"
             android:textColor="#757575"
-            android:id="@+id/style1"
+            android:id="@+id/details_brand"
             android:textSize="21dp"
             android:layout_x="26dp"
             android:layout_y="5dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="商业风"
-            android:layout_gravity="center"
 
-            android:textColor="#757575"
-            android:id="@+id/style2"
-            android:textSize="21dp"
-            android:layout_x="292dp"
-            android:layout_y="3dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +105,7 @@
             android:layout_gravity="center"
             android:textColor="#757575"
             android:layout_marginRight="24dp"
-            android:id="@+id/style3"
+            android:id="@+id/details_style"
             android:layout_x="167dp"
             android:layout_y="6dp"
             android:textSize="21dp"
@@ -138,6 +128,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/details_describe"
             android:text="上午搭配的，怎么样，很帅很不错不错吧！"
             android:textColor="#212121"
             android:textSize="18dp"/>

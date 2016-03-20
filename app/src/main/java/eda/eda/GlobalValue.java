@@ -25,6 +25,7 @@ public class GlobalValue {
     public static final String UploadPictureUrl = "http://"+ip+"/eda/servlet/UploadPicture";
     public static final String imageUrl = "http://"+ip+"/eda/pic";
     public static final String PostUrl = "http://"+ip+"/eda/servlet/PostArticle";
+    public static final String getActicleDetailsUrl = "http://"+ip+"/eda/servlet/PostArticleDetails";
 
     public static String getAbsoluteImagePath(Context context,Uri uri)
     {

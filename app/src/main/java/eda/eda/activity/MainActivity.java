@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainActToolbar;//AppBar
     private ActionBarDrawerToggle mainActDrawerToggle;//侧边栏监听器
     private NavigationView mainActNavigationView;//侧边栏
+    private FloatingActionButton fab; //FloatActionButton
 
     private ArrayList<Card> cardList;
     private Context context;
@@ -80,17 +81,9 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
         conTask();
 
-        ImageView imageView=(ImageView)findViewById(R.id.profile_image);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent main = new Intent(MainActivity.this,MeActivity.class);
-                startActivity(main);
-            }
-        });
 
-        FloatingActionButton fb=(FloatingActionButton)findViewById(R.id.fab);
-        fb.setOnClickListener(new View.OnClickListener() {
+        fab=(FloatingActionButton)findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(GlobalValue.getUuid(context).equals(""))
@@ -150,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.navigation_mycollect:
-
+                                Intent meAct = new Intent(MainActivity.this,MeActivity.class);
+                                startActivity(meAct);
                                 break;
                             case R.id.navigation_mastercollect:
                                 fragmentClass = MasterCollectFragment.class;

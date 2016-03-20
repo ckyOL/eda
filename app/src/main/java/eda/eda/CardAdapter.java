@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,7 +84,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final Card mCard = cardDataSet.get(position);
@@ -101,6 +102,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                     e.printStackTrace();
                 }
                 conTask(GlobalValue.favoriteUri, json);
+                holder.mLike.setImageDrawable(Drawable.createFromPath("card_like_on"));
             }
         });
 
@@ -128,16 +130,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         holder.mCollectPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(mContext,DetailActivity.class);
-                String path= PostActivity.saveImage(collectBitmap);
-                main.putExtra("url",path);
-                mContext.startActivity(main);
+                Intent detail = new Intent(mContext,DetailActivity.class);
+                String uuid = mCard.uuid;
+                detail.putExtra("uuid",uuid);
+                mContext.startActivity(detail);
             }
         });
     }
 
-    public Bitmap AsyncGetHttpBitmap(String url)
-    {
+    public Bitmap AsyncGetHttpBitmap(String url) {
         ExecutorService executor = Executors.newCachedThreadPool();
         GetBitmapTask task=new GetBitmapTask(url);
         Future<Bitmap> result=executor.submit(task);
@@ -153,8 +154,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         return bitmap;
     }
 
-    class GetBitmapTask implements Callable<Bitmap>
-    {
+    class GetBitmapTask implements Callable<Bitmap> {
 
         String url;
 
