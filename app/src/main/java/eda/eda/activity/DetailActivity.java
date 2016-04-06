@@ -41,8 +41,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         uuid = getIntent().getStringExtra("uuid");
+        userProfilePic=getIntent().getStringExtra("profileName");
+        userShowPic=getIntent().getStringExtra("imageName");
+
         findView();
-        getImage();
+        //getImage();
         init();
 
     }
@@ -63,12 +66,12 @@ public class DetailActivity extends AppCompatActivity {
         final Bitmap collectBitmap = AsyncGetHttpBitmap(userShowPic);
         userShow.setImageBitmap(collectBitmap);
         profileImage.setImageBitmap(profileBitmap);
-        detailUserName.setText(userName);
-        detailPostTime.setText(postTime);
-        detailLikeNum.setText(likeNum);
-        detailBrand.setText(brand);
-        detailStyle.setText(style);
-        detailDescribe.setText(describe);
+        //detailUserName.setText(userName);
+        //detailPostTime.setText(postTime);
+        //detailLikeNum.setText(likeNum);
+        //detailBrand.setText(brand);
+        //detailStyle.setText(style);
+        //detailDescribe.setText(describe);
 
     }
 

@@ -66,7 +66,7 @@ public class Post2Activity extends AppCompatActivity {
                 {
                     AsyncFileUpload fileUpload=new AsyncFileUpload(GlobalValue.getUuid(context));
 
-                    if(fileUpload.pictureUpload(GlobalValue.getAbsoluteImagePath(context,uri),GlobalValue.UploadPictureUrl))
+                    if(fileUpload.pictureUpload(GlobalValue.getRealFilePath(context,uri),GlobalValue.UploadPictureUrl))
                     {
                         String picUrl=fileUpload.getFileName();
                         JSONArray lables=new JSONArray();

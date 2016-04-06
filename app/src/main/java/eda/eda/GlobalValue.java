@@ -1,5 +1,6 @@
 package eda.eda;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -26,6 +27,31 @@ public class GlobalValue {
     public static final String imageUrl = "http://"+ip+"/eda/pic";
     public static final String PostUrl = "http://"+ip+"/eda/servlet/PostArticle";
     public static final String getActicleDetailsUrl = "http://"+ip+"/eda/servlet/PostArticleDetails";
+
+
+    public static String getRealFilePath( final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
+
 
     public static String getAbsoluteImagePath(Context context,Uri uri)
     {

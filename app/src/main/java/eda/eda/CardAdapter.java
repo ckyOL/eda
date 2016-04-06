@@ -133,6 +133,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 Intent detail = new Intent(mContext,DetailActivity.class);
                 String uuid = mCard.uuid;
                 detail.putExtra("uuid",uuid);
+                detail.putExtra("profileName",mCard.profileName);
+                detail.putExtra("imageName",mCard.imageName);
                 mContext.startActivity(detail);
             }
         });
