@@ -9,10 +9,7 @@
     android:background="@color/background_login"
     android:id="@+id/post_layout">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"/>
+
 
     <ImageView
         android:layout_width="match_parent"
